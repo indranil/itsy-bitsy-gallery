@@ -1,0 +1,13 @@
+h1.Itsy Bitsy Gallery
+
+h3.What does it do?
+
+It displays all the image files within a folder as a gallery.
+
+h3. Configurations?
+
+None! Put the file in the folder, and see magic unfold!
+
+h4. Requirements?
+
+Images. PHP.
