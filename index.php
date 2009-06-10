@@ -4,7 +4,7 @@ $ts = microtime(true);
 
 /**
  * Itsy Bitsy Gallery
- *
+ * ==================
  * @author Indranil Dasgupta
  * @version 0.4.2
  * @copyright Indranil Dasgupta, 2009
@@ -27,7 +27,7 @@ if($dir_handle = @scandir($path)) {
 	foreach($dir_handle as $file) {
 		$flag = 0;
 		// We're skipping the files that're part of this installation ;)
-		if($file == 'index.php' || $file == 'README.textile' || $file == '.git' || $file == '.' || $file == '..' || $file == '.DS_Store' || $file == 'Thumbs.db') {
+		if($file == 'index.php' || $file == 'README.textile' || $file == '.git' || $file == '.' || $file == '..' || $file == '.DS_Store' || $file == 'Thumbs.db' || $file == '.gitignore') {
 			continue;
 		}
 		$file_info = getimagesize($file);
@@ -40,12 +40,24 @@ if($dir_handle = @scandir($path)) {
 		}
 	}
 	// We can now work with the files in our $files counter. :D dandy, no?
-	
+	echo '<pre>';
 	print_r($files);
-	
+	echo '</pre>';
+		
 } else {
 	die('Invalid directory. Pain!');
 }
-
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Itsy Bitsy Gallery</title>
+</head>
+<body>
+	
+</body>
+</html>
+<?php
 echo '<br>';
 echo microtime(true) - $ts;
+?>

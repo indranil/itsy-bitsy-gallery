@@ -1,2 +1,6 @@
 *.jpg
+*.jpeg
+*.png
+*.rtf
+*.sql
 *.pdf
