@@ -7,7 +7,7 @@ $ts = microtime(true);
  *
  * @author Indranil Dasgupta
  * @version 0.4.2
- * @copyright Indranil Dasgupta, 27 December, 2008
+ * @copyright Indranil Dasgupta, 2009
  * @package default
  **/
 
@@ -26,19 +26,22 @@ if($dir_handle = @scandir($path)) {
 	$i = 0;
 	foreach($dir_handle as $file) {
 		$flag = 0;
-		echo mime_content_type($file);
-		for($j=0;$j<count($types);$j++) {
-			if($file === $type[$j]) {
-				$flag = 1;
-			}
+		// We're skipping the files that're part of this installation ;)
+		if($file == 'index.php' || $file == 'README.textile' || $file == '.git' || $file == '.' || $file == '..' || $file == '.DS_Store' || $file == 'Thumbs.db') {
+			continue;
 		}
-		if($flag === 0) {
+		$file_info = getimagesize($file);
+		if(in_array($file_info['mime'], $types)) {
+			$flag = 1;
+		}
+		if($flag === 1) {
 			$files[$i] = $file;
 			$i++;
 		}
 	}
+	// We can now work with the files in our $files counter. :D dandy, no?
 	
-	
+	print_r($files);
 	
 } else {
 	die('Invalid directory. Pain!');
@@ -46,5 +49,3 @@ if($dir_handle = @scandir($path)) {
 
 echo '<br>';
 echo microtime(true) - $ts;
-
-?>
