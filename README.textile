@@ -6,7 +6,9 @@ It displays all the image files within a folder as a gallery.
 
 h3. Configurations?
 
-None! Put the file in the folder, and see magic unfold!
+_None_! Put the file in the folder, and see magic unfold!
+
+*Alternatively*, if you want to configure some options, open up @index.php@, and edit these lines 22 through 29. :)
 
 h4. Requirements?
 

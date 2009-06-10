@@ -11,6 +11,29 @@ $ts = microtime(true);
  * @package default
  **/
 
+/*	CONFIGURATION -----
+	===================
+	* The following
+	* variables should
+	* be configured.
+	*
+*/
+
+$config['site_title']	=	'Itsy Bitsy Gallery';		// The title of the site.
+$config['heading']		=	'Gallery';					// The header of the page.
+$config['min_width']	=	'400';						// The minimum width for the thumbnails
+$config['min_height']	=	'400';						// The minimum height for the thumbnails
+$config['box_width']	=	'450';						// The width of the box containing the thumbnail
+$config['box_height']	=	'450';						// The height of the box containing the thumbnail
+$config['copy_holder']	=	'Photographer';				// The person whose name comes as copyright holder
+$config['copy_year']	=	'2009-2010';				// The years copyrighted for
+
+
+/* End Configuration.
+	From here starts the hard stuff!
+	Don't edit unless you know what you're doing.
+*/
+
 if(version_compare(PHP_VERSION,'5','<')) die('Sorry, we require PHP 5+ to properly function!');
 
 
@@ -35,14 +58,14 @@ if($dir_handle = @scandir($path)) {
 			$flag = 1;
 		}
 		if($flag === 1) {
-			$files[$i] = $file;
+			$files[$i]['name'] = $file;
+			foreach($file_info as $key => $value) {
+				$files[$i][$key] = $value;
+			}
 			$i++;
 		}
 	}
 	// We can now work with the files in our $files counter. :D dandy, no?
-	echo '<pre>';
-	print_r($files);
-	echo '</pre>';
 		
 } else {
 	die('Invalid directory. Pain!');
@@ -51,10 +74,21 @@ if($dir_handle = @scandir($path)) {
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Itsy Bitsy Gallery</title>
+	<title><?php echo $config['site_title']; ?></title>
 </head>
 <body>
+	<h1><?php echo $config['heading']; ?></h1>
+
+	<ul>
+		<?php  /* foreach($files as $imgfile) {
+			
+			<li><img src="<?php echo $imgfile; ?>" alt="image" /></li>
+		<?php } */ ?>
+	</ul>
 	
+	<div class="footer">
+		Copyright &copy; <?php echo $config['copy_year'] . ', ' . $config['copy_holder']; ?>. All Rights Reserved. Powered by <a href="#">Itsy Bitsy Gallery</a>.
+	</div>
 </body>
 </html>
 <?php
