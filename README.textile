@@ -10,6 +10,8 @@ _None_! Put the file in the folder, and see magic unfold!
 
 *Alternatively*, if you want to configure some options, open up @index.php@, and edit these lines 22 through 29. :)
 
+If you want to edit the CSS, it starts from line # 100 in @index.php@.
+
 h4. Requirements?
 
 Images. PHP.

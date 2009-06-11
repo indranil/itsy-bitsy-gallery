@@ -149,14 +149,15 @@ if($dir_handle = @scandir($path)) {
 	
 	.gallery li {
 		float: left;
-		width: 450px;
-		height: 450px;
+		width: <?php echo $config['box_width']; ?>px;
+		height: <?php echo $config['box_height']; ?>px;
 		text-align: center;
 		margin: 0 30px 30px 0;
 	}
 	
 	.gallery li img {
-		border: 2px solid green;
+		padding: 2px;
+		border: 2px solid #36362C;
 	}
 	
 	.footer {
