@@ -36,7 +36,6 @@ $config['copy_year']	=	'2009-2010';				// The years copyrighted for
 
 if(version_compare(PHP_VERSION,'5','<')) die('Sorry, we require PHP 5+ to properly function!');
 
-
 // Let's see where we are.
 $path = @realpath(dirname('__FILE__'));
 
@@ -47,43 +46,57 @@ $files = array();
 // We're scanning the directory now
 if($dir_handle = @scandir($path)) {
 	$i = 0;
-	foreach($dir_handle as $file) {
+	if(isset($_GET['img']) && $_GET['img'] != '') {
+		$img_name = $_GET['img'];
 		$flag = 0;
-		// We're skipping the files that're part of this installation ;)
-		if($file == 'index.php' || $file == 'README.textile' || $file == '.git' || $file == '.' || $file == '..' || $file == '.DS_Store' || $file == 'Thumbs.db' || $file == '.gitignore') {
-			continue;
-		}
-		$file_info = getimagesize($file);
-		if(in_array($file_info['mime'], $types)) {
-			$flag = 1;
-		}
-		if($flag === 1) {
-			$files[$i]['name'] = $file;
-			foreach($file_info as $key => $value) {
-				$files[$i][$key] = $value;
+		foreach($dir_handle as $file) {
+			if($file === $img_name) {
+				$flag = 1;
+				break;
 			}
-			if($files[$i][0] >= $files[$i][1]) {
-				if($files[$i][0] > $config['min_width']) {
-					$files[$i]['thumb_width'] = $config['min_width'];
-					$files[$i]['thumb_height'] = $files[$i]['thumb_width'] * ($files[$i][1] / $files[$i][0]);
-				} else {
-					$files[$i]['thumb_width'] = $files[$i][0];
-					$files[$i]['thumb_height'] = $files[$i][1];
-				}
-			} else {
-				if($files[$i][1] > $config['min_height']) {
-					$files[$i]['thumb_height'] = $config['min_height'];
-					$files[$i]['thumb_width'] = $files[$i]['thumb_height'] * ($files[$i][0] / $files[$i][1]);
-				} else {
-					$files[$i]['thumb_height'] = $files[$i][1];
-					$files[$i]['thumb_width'] = $files[$i][0];
-				}
-			}
-			$i++;
 		}
+		if($flag === 0) {
+			$msg = "No such image found in folder";
+		}
+	} else {
+		foreach($dir_handle as $file) {
+			$flag = 0;
+			// We're skipping the files that're part of this installation ;)
+			if($file == 'index.php' || $file == 'README.textile' || $file == '.git' || $file == '.' || $file == '..' || $file == '.DS_Store' || $file == 'Thumbs.db' || $file == '.gitignore') {
+				continue;
+			}
+			$file_info = getimagesize($file);
+			if(in_array($file_info['mime'], $types)) {
+				$flag = 1;
+			}
+			if($flag === 1) {
+				$files[$i]['name'] = $file;
+				foreach($file_info as $key => $value) {
+					$files[$i][$key] = $value;
+				}
+				if($files[$i][0] >= $files[$i][1]) {
+					if($files[$i][0] > $config['min_width']) {
+						$files[$i]['thumb_width'] = $config['min_width'];
+						$files[$i]['thumb_height'] = $files[$i]['thumb_width'] * ($files[$i][1] / $files[$i][0]);
+					} else {
+						$files[$i]['thumb_width'] = $files[$i][0];
+						$files[$i]['thumb_height'] = $files[$i][1];
+					}
+				} else {
+					if($files[$i][1] > $config['min_height']) {
+						$files[$i]['thumb_height'] = $config['min_height'];
+						$files[$i]['thumb_width'] = $files[$i]['thumb_height'] * ($files[$i][0] / $files[$i][1]);
+					} else {
+						$files[$i]['thumb_height'] = $files[$i][1];
+						$files[$i]['thumb_width'] = $files[$i][0];
+					}
+				}
+				$i++;
+			}
+		}
+		$num_files = count($files);
+		// We can now work with the files in our $files counter. :D dandy, no?
 	}
-	$num_files = count($files);
-	// We can now work with the files in our $files counter. :D dandy, no?
 		
 } else {
 	die('Invalid directory. Pain!');
@@ -136,6 +149,16 @@ if($dir_handle = @scandir($path)) {
 		border-bottom: 1px dotted #536661;
 	}
 	
+	h1 a {
+		color: #36362C;
+		text-decoration: none;
+	}
+	
+	h1 a:hover {
+		background: none;
+		color: #36362C;
+	}
+	
 	.imgcount {
 		font-style: italic;
 		font-size: 12px;
@@ -155,9 +178,21 @@ if($dir_handle = @scandir($path)) {
 		margin: 0 30px 30px 0;
 	}
 	
-	.gallery li img {
+	.gallery li a img {
 		padding: 2px;
 		border: 2px solid #36362C;
+	}
+	
+	.gallery li a:hover {
+		background: none !important;
+	}
+	
+	.gallery li a:hover img {
+		border-color: #000;
+	}
+	
+	.main_img {
+		text-align: center;
 	}
 	
 	.footer {
@@ -174,16 +209,28 @@ if($dir_handle = @scandir($path)) {
 </head>
 <body>
 <div class="wrapper">
-	<h1><?php echo $config['heading']; ?></h1>
-	<p class="imgcount"><?php echo $num_files; ?> images contained within the folder.</p>
+	<h1>
+		<?php if(isset($_GET['img']) && $_GET['img'] != '') { ?>
+			<a href="index.php" title="Back home"><?php echo $config['heading']; ?> &laquo;</a>
+		<?php } else {
+			echo $config['heading'];
+		} ?>
+	</h1>
+	<?php if(isset($num_files) && $num_files != 0) { ?><p class="imgcount"><?php echo $num_files; ?> images contained within the folder.</p><?php } ?>
+	<?php if(isset($_GET['img']) && $_GET['img'] != '') {
+		if(isset($msg)) echo $msg;
+		echo '<div class="main_img"><img src="' . $img_name . '" alt="image" /></div>'; 
+	} else { ?>
 	<ul class="gallery">
-		<?php foreach($files as $imgfile) {
-			echo '<li><img src="' . $imgfile['name'] . '" width="' . $imgfile['thumb_width'] . '" height="' . $imgfile['thumb_height'] . '" alt="image" /></li>' . "\n";
+		<?php if(count($files) === 0) echo 'No images in folder!';
+		foreach($files as $imgfile) {
+			echo '<li><a href="?img=' . $imgfile['name'] . '"><img src="' . $imgfile['name'] . '" width="' . $imgfile['thumb_width'] . '" height="' . $imgfile['thumb_height'] . '" alt="image" /></a></li>' . "\n";
 		} ?>
 	</ul>
+	<?php } ?>
 	
 	<p class="footer">
-		Copyright &copy; <?php echo $config['copy_year'] . ', ' . $config['copy_holder']; ?>. All Rights Reserved. Powered by <a href="#">Itsy Bitsy Gallery</a>.
+		Copyright &copy; <?php echo $config['copy_year'] . ', ' . $config['copy_holder']; ?>. All Rights Reserved. Powered by <a href="http://dawnstudios.com/gallery/">Itsy Bitsy Gallery</a>.
 	</p>
 </div>
 </body>
