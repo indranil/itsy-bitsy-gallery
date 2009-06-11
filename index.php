@@ -65,6 +65,7 @@ if($dir_handle = @scandir($path)) {
 			$i++;
 		}
 	}
+	$num_files = count($files);
 	// We can now work with the files in our $files counter. :D dandy, no?
 		
 } else {
@@ -78,12 +79,28 @@ if($dir_handle = @scandir($path)) {
 </head>
 <body>
 	<h1><?php echo $config['heading']; ?></h1>
-
+	<p><?php echo $num_files; ?> images contained within the folder.</p>
 	<ul>
-		<?php  /* foreach($files as $imgfile) {
-			
-			<li><img src="<?php echo $imgfile; ?>" alt="image" /></li>
-		<?php } */ ?>
+		<?php foreach($files as $imgfile) {
+			if($imgfile[0] >= $imgfile[1]) {
+				if($imgfile[0] > $config['min_width']) {
+					$width = $config['min_width'];
+					$height = $width * ($imgfile[1] / $imgfile[0]);
+				} else {
+					$width = $imgfile[0];
+					$height = $imgfile[1];
+				}
+			} else {
+				if($imgfile[1] > $config['min_height']) {
+					$height = $config['min_height'];
+					$width = $height * ($imgfile[0] / $imgfile[1]);
+				} else {
+					$height = $imgfile[1];
+					$width = $imgfile[0];
+				}
+			}
+			echo '<li><img src="' . $imgfile['name'] . '" width="' . $width . '" height="' . $height . '" alt="image" /></li>' . "\n";
+		} ?>
 	</ul>
 	
 	<div class="footer">
