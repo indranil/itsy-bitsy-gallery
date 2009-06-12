@@ -1,5 +1,9 @@
 h1. Itsy Bitsy Gallery
 
+h4. Upgrading :
+
+One new configuration option has been added. Copy paste the old config portion, or just this right there, and also check to see that the new config option is there.
+
 h3. What does it do?
 
 It displays all the image files within a folder as a gallery.
@@ -12,6 +16,6 @@ _None_! Put the file in the folder, and see magic unfold!
 
 If you want to edit the CSS, it starts from line # 113 in @index.php@.
 
-h4. Requirements?
+h3. Requirements?
 
 Images. PHP.
