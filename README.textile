@@ -1,11 +1,6 @@
 h1. Itsy Bitsy Gallery
 
-*_version 0.5_* _(updated 12 June, 09)_
-
-
-h4. Upgrading :
-
-One new configuration option has been added. Copy paste the old config portion, or just this right there, and also check to see that the new config option is there.
+*_version 0.7_* _(updated 23 November, 2011)_
 
 h3. What does it do?
 
@@ -15,7 +10,7 @@ h3. Configurations?
 
 _None_! Put the file in the folder, and see magic unfold!
 
-*Alternatively*, if you want to configure some options, open up @index.php@, and edit these lines 19 through 27. :)
+*Alternatively*, if you want to configure some options, open up @index.php@, and edit these lines 19 through 25. :)
 
 If you want to edit the CSS, it starts from line # 118 in @index.php@.
 
