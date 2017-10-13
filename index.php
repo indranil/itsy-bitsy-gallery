@@ -307,7 +307,7 @@ if (isset($_GET['img']) && $_GET['img'] != '') {
     <?php } // see line #226 ?>
     
     <p class="footer">
-        Copyright &copy; <?php echo $config['copy_year'] . ', ' . $config['copy_holder']; ?>. All Rights Reserved. Powered by <a href="http://dawnstudios.com/gallery/">Itsy Bitsy Gallery</a>.
+        Copyright &copy; <?php echo $config['copy_year'] . ', ' . $config['copy_holder']; ?>. All Rights Reserved. Powered by <a href="https://github.com/indranil/itsy-bitsy-gallery/" target="_blank">Itsy Bitsy Gallery</a>.
     </p>
 </div>
 </body>
